@@ -3,15 +3,18 @@
 
 
 * Creamos la lista vacia:
+  
 >> lista = list()
 
 
 * Usamos un ciclo for para recorrer del 1 al 50:
+
 >>> for i in range(1, 51):
 ...     lista.append(i)
 
 
 * *mprimimos el resultado:
+
 ... print(lista)
 ...
 \[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
@@ -21,15 +24,18 @@
 
 
 * Creamos la lista vacía de bases:
+
 >>> bases = \[]
 
 
 * Agregamos cada base con un ciclo:
+
 >>> for base in \["adenina", "timina", "citocina", "guanina"]:
 ...     bases.append(bases)
 
 
 * Imprimimos la lista completa:
+
 ... print(bases)
 ...
 **\[\[...], \[...], \[...], \[...]]**
@@ -42,6 +48,7 @@
 
 
 * Imprimimos un corte desde la posición 0 hasta la 3:
+
 >>> print(bases\[0:4])
 \[\[\[...], \[...], \[...], \[...]], \[\[...], \[...], \[...], \[...]], \[\[...], \[...], \[...], \[...]], \[\[...], \[...], \[...], \[...]]]
 
