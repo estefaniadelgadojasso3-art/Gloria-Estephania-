@@ -60,9 +60,6 @@ for i in range(len(palabra)):
 Salida
 1
 
-range(len(palabra)) genera las posiciones.
-palabra[i] obtiene la letra en cada posición..
-break termina el ciclo para que no siga buscando.
 
 5. Imprimir todos los números de la siguiente lista utilizando ciclos: (4 puntos)
 lista = [ [1], [1,2], [1,2,3], [1,2,3,4], [1,2,3,4,5] ]
