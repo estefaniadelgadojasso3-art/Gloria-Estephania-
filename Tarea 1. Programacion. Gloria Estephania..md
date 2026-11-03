@@ -192,18 +192,11 @@ edad = 20
 
 
 
-&#x20;  >>> texto = "quesillo"
+&#x20;  >>> texto = "faniiiii"
 
-&#x20;  >>> print(texto.count("a"))
+&#x20;  >>> print(texto.count("i"))
 
-&#x20;  **0**
-
-&#x20;  >>> texto = "quesillo es queso oxaca"
-
-&#x20;  >>> print(texto.count("a"))
-
-&#x20;  **2**
-
+&#x20;  **5**
 
 
 * b. encontrar() = le das un texto para buscar y el te dice la posición exacta en la que empieza, si no lo encuentra te manda un -1 para avisarte que no esta.
