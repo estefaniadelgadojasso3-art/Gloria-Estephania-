@@ -17,7 +17,7 @@ Esto ocurre porque al dividir 22 entre 10, el cociente es 2 y el residuo es 2.
 lista = []
 
 for i in range(2, 51):
-    if i % 1 == 0:
+    if i % 2 == 0:
         lista.append(i)
 
 print(lista)
@@ -35,7 +35,6 @@ lista.append(i) agrega el número a la lista.
 
 El comando break sirve para detener inmediatamente un ciclo for, sin importar que todavía queden iteraciones por realizar.
 
-print(lista)
 for i in range(1, 10):
     if i == 4:
         break
