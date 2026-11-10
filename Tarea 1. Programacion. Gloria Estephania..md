@@ -235,13 +235,9 @@ edad = 20
 
 * d. remplazar() = remplaza todas las apariciones de una subcadena por otra nueva.
 
-
-
-&#x20;  >>> texto = "hola mundo"
-
-&#x20;  >>> print(texto.replace("mundo", "python"))
-
-&#x20;  **hola Python**
+>>> texto = "hola mundo"
+>>> print(texto.replace("mundo", "python"))
+**hola python**
 
 
 
