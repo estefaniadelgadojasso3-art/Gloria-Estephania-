@@ -68,8 +68,8 @@ la llave cuarto no existe
 (3 puntos)
 3. Hacer una función que convierta un string con nucleótidos en la proteína correspondiente. Sugerencia, crea un diccionario del código genético. Nota: los codones de paro comúnmente se sustituyen por un asterisco (*). Tener cuidado con qué pasa si la secuencia no tiene una longitud múltiplo de 3.
 
-codigo =
-    {"TTT": "F", "TTC": "F", "TTA": "L", "TTG": "L",
+codigo ={
+    "TTT": "F", "TTC": "F", "TTA": "L", "TTG": "L",
     "CTT": "L", "CTC": "L", "CTA": "L", "CTG": "L",
     "ATT": "I", "ATC": "I", "ATA": "I", "ATG": "M",
     "GTT": "V", "GTC": "V", "GTA": "V", "GTG": "V",
@@ -84,7 +84,8 @@ codigo =
     "TGT": "C", "TGC": "C", "TGA": "*", "TGG": "W",
     "CGT": "R", "CGC": "R", "CGA": "R", "CGG": "R",
     "AGT": "S", "AGC": "S", "AGA": "R", "AGG": "R",
-    "GGT": "G", "GGC": "G", "GGA": "G", "GGG": "G"}
+    "GGT": "G", "GGC": "G", "GGA": "G", "GGG": "G"
+}
 
 
 def traducir(secuencia):
