@@ -1,131 +1,124 @@
 Tarea 5.
 Dado el archivo fasta hacer un programa con las siguientes funciones.
 
-(1 punto)
-1. Para todos los encabezados, lo imprima en el formato
-"Organismo <el nombre del fasta>, contig <el contenido del encabezado, sin el ">""
-
-¿Qué hace? identifica las líneas de el archivo cuando empiezan con el símbolo > , al encontrarla se quita ese símbolo e imprime cambiando el nombre del archivo usando la estructura que nos da.
-
-(2 punto)
-2. Para cada línea de secuencia genómica, imprima su contenido de GC en el formato "GC línea <número de línea>: <GC"
-
-¿Qué hace? Esto lo que hace es calcular el porcentaje de bases de guanina y citosina  en cada secuencia genómica, la cantidad obtenida de bases se divide entre el numero total de caracteres de esa misma linea. 
-
-(2 puntos)
-3. Para la primera secuencia de cada segmento, imprima su secuencia complementaria
-
-¿Qué hace? Toma únicamente la primera linea de secuencia que aparece inmediatamente después de cada encabezado , asi mostrando su complementariedad del ADN
-
-(2 punto)
-4. Imprima el número de línea donde encuentre el codón "ATG" en el formato "ATG en línea <número de línea>"
-
-¿Qué hace? Detecta  en que numero de líneas exactas aparece el codón de inicio "ATG"
-
-
-(1 punto)
-5. Calcule el contenido GC total del archivo y lo imprima al final en formato "GC total del archivo: <GC>
-¿Qué hace? calcula el porcentaje global de G y C considerando todo el archivo completo al finalizar la lectura.
-
-import os
-
-# Tabla para obtener la secuencia complementaria
-TABLA_COMPLEMENTO = str.maketrans("ACGTacgt", "TGCAtgca")
-
-
-def leer_fasta(ruta):
-    with open(ruta, "r") as f:
-        return [l.strip() for l in f.read().splitlines()]
-
-
-def es_encabezado(linea):
-    return linea.startswith(">")
-
+def complemento(secuencia):
+    pares = {"A": "T", "T": "A", "G": "C", "C": "G",
+             "R": "Y", "Y": "R", "K": "M", "M": "K",
+             "S": "S", "W": "W", "N": "N"}
+    resultado = ""
+    for letra in secuencia:
+        if letra in pares:
+            resultado = resultado + pares[letra]
+        else:
+            resultado = resultado + letra
+    return resultado
 
 def contar_gc(secuencia):
-    s = secuencia.upper()
-    return s.count("G") + s.count("C")
+    # Cuenta cuántas G y C hay
+    total = 0
+    for letra in secuencia:
+        if letra == "G" or letra == "C":
+            total = total + 1
+    return total
 
+def formato_gc(valor):
+    # Corta a 2 decimales: 0.0909 -> .09, 0 -> 0, 1 -> 1
+    n = int(valor * 100)
+    if n == 0:
+        return "0"
+    if n == 100:
+        return "1"
+    if n < 10:
+        return ".0" + str(n)
+    return "." + str(n)
 
-def imprimir_encabezado(nombre, linea):
-    # 1. Encabezado
-    print(f"Organismo {nombre}, contig {linea[1:]}")
+nombre_archivo = "AJ278755.fasta"
+organismo = nombre_archivo.replace(".fasta", "")
 
+archivo = open(nombre_archivo, "r")
 
-def imprimir_gc_linea(num, secuencia):
-    # 2. GC por línea
-    gc = contar_gc(secuencia) / len(secuencia)
-    print(f"GC línea {num}: {gc:.2f}")
+numero_linea = 0
+primera = False      # True cuando la siguiente secuencia es la primera del segmento
+gc_total = 0
+bases_total = 0
 
+for linea in archivo:
+    numero_linea = numero_linea + 1
+    linea = linea.strip()
 
-def imprimir_complementaria(secuencia):
-    # 3. Complementaria de la primera secuencia de cada segmento
-    print(secuencia.upper().translate(TABLA_COMPLEMENTO))
+    if linea == "":
+        continue
 
-
-def buscar_atg(num, secuencia):
-    # 4. Línea donde aparece ATG
-    if "ATG" in secuencia.upper():
-        print(f"ATG en línea {num}")
-
-
-def imprimir_gc_total(total_gc, total_bases):
-    # 5. GC total del archivo
-    if total_bases > 0:
-        print(f"GC total del archivo: {total_gc / total_bases:.2f}")
+    if linea.startswith(">"):
+        # 1. Encabezado
+        print("Organismo " + organismo + ", contig " + linea[1:])
+        primera = True
     else:
-        print("El archivo no contiene secuencias.")
+        linea = linea.upper()
 
+        # 2. GC de la línea
+        gc = contar_gc(linea)
+        print("GC línea " + str(numero_linea) + ": " + formato_gc(gc / len(linea)))
 
-def main():
-    print("Directorio actual:", os.getcwd())
-    ruta = input("Nombre del archivo FASTA: ")
-    nombre = os.path.splitext(os.path.basename(ruta))[0]
+        # Acumular para el total
+        gc_total = gc_total + gc
+        bases_total = bases_total + len(linea)
 
-    lineas = leer_fasta(ruta)
+        # 3. Complementaria de la primera secuencia del segmento
+        if primera:
+            print(complemento(linea))
+            primera = False
 
-    total_gc = 0
-    total_bases = 0
-    es_primera = False
+        # 4. Buscar ATG
+        if "ATG" in linea:
+            print("ATG en línea " + str(numero_linea))
 
-    for num, linea in enumerate(lineas, start=1):
-        if linea == "":
-            continue
+archivo.close()
 
-        if es_encabezado(linea):
-            imprimir_encabezado(nombre, linea)
-            es_primera = True
-            continue
+# 5. GC total
+print("GC total del archivo: " + formato_gc(gc_total / bases_total))
 
-        imprimir_gc_linea(num, linea)
-        total_gc += contar_gc(linea)
-        total_bases += len(linea)
-
-        if es_primera:
-            imprimir_complementaria(linea)
-            es_primera = False
-
-        buscar_atg(num, linea)
-
-    imprimir_gc_total(total_gc, total_bases)
-
-
-main()v
-
-Nombre del archivo FASTA: humano.fasta
-Organismo humano, contig chr 1
-GC línea 2: 0.09
-TTTTTACAAAA
-ATG en línea 2
-GC línea 3: 0.00
-Organismo humano, contig chr 2
-GC línea 5: 1.00
-CCCCCCCCCCC
-GC línea 6: 0.82
+Organismo AJ278755, contig lcl|AJ278755.1_gene_1 [gene=18S rRNA] [location=1..1787] [gbkey=Gene]
+GC línea 3: .38
+GACCAACTAAGACGGTCATCAGTATACGAACAGAGTTTCTAATTCGGTACGTACAGATTCATATTCGTTR
+ATG en línea 3
+GC línea 4: .32
+ATG en línea 4
+GC línea 5: .38
+ATG en línea 5
+GC línea 6: .51
 ATG en línea 6
-GC línea 7: 0.45
-GC línea 8: 0.82
-ATG en línea 8
-GC total del archivo: 0.53
-
-
+GC línea 7: .45
+ATG en línea 7
+GC línea 8: .54
+GC línea 9: .48
+GC línea 10: .44
+ATG en línea 10
+GC línea 11: .42
+GC línea 12: .62
+GC línea 13: .44
+ATG en línea 13
+GC línea 14: .38
+ATG en línea 14
+GC línea 15: .44
+ATG en línea 15
+GC línea 16: .34
+ATG en línea 16
+GC línea 17: .51
+ATG en línea 17
+GC línea 18: .47
+ATG en línea 18
+GC línea 19: .47
+GC línea 20: .41
+GC línea 21: .48
+ATG en línea 21
+GC línea 22: .51
+GC línea 23: .54
+ATG en línea 23
+GC línea 24: .47
+GC línea 25: .44
+GC línea 26: .54
+ATG en línea 26
+GC línea 27: .45
+GC línea 28: .45
+GC total del archivo: .46
