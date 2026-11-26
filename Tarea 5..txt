@@ -135,6 +135,22 @@ def main():
 
 main()
 
+Nombre del archivo FASTA: humano.fasta
+Organismo humano, contig chr 1
+GC línea 2: 0.09
+TTTTTACAAAA
+ATG en línea 2
+GC línea 3: 0.00
+Organismo humano, contig chr 2
+GC línea 5: 1.00
+CCCCCCCCCCC
+GC línea 6: 0.82
+ATG en línea 6
+GC línea 7: 0.45
+GC línea 8: 0.82
+ATG en línea 8
+GC total del archivo: 0.53
+
 6. Explicación del formato de archivo PDB
 
 Nombre: Protein Data Bank (PDB).
